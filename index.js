@@ -8,8 +8,8 @@ require('./bot.js')();
 
 app.get('/', function(req, res){
   res
-    .status(200);
-    .setHeader('Content-Type', 'application/json');
+    .status(200)
+    .setHeader('Content-Type', 'application/json')
     .send(JSON.stringify({name: 'tudsbot', ver: '0.0.1'}));
 });
 
