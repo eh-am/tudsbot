@@ -31,7 +31,7 @@ module.exports = function(){
 
     msg.text.split(' ').forEach(function (word){
       // if it's a url
-      if (validUrl.isValid(word)){
+      if (validUrl.isUri(word)){
         if (msg.chat.type === "private"){
           bot.sendMessage(msg.chat.id, "Desculpe, só funciono em grupos");
           return ;
