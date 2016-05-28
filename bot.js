@@ -37,6 +37,7 @@ module.exports = function(){
 
         http.get(word, function (res){
             console.log('url ' + word + ' exists');
+            bot.sendMessage(msg.chat.id, "Url " + word + "exists");
         });
 
       }
