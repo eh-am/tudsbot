@@ -13,6 +13,7 @@
   "author": "eh-am",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "node-telegram-bot-api": "^0.21.1"
   }
 }
