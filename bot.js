@@ -27,6 +27,20 @@ module.exports = function(){
   var regex = new RegExp('(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?');
 
   bot.on('message', function(msg){
+
+    if (new RegExp('tudsbot apagar \\d+', 'i').test(msg.text)) {
+      var deleteId = msg.text.match('tudsbot apagar (\\d+)', 'i')[1];
+
+      twitterClient.post('statuses/destroy/'+deleteId, null, function (err, tweet){
+        if (err){
+          bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(err), {reply_to_message_id: msg.message_id })
+        }
+
+        bot.sendMessage(msg.chat.id, "Tweet apagado com sucesso, cuzão");
+      });
+      return;
+    }
+
     if (!regex.test(msg.text)) return;
     if (!new RegExp('tudsbot', 'i').test(msg.text)) return; // it has to contain 'tudsbot'
 
@@ -47,7 +61,7 @@ module.exports = function(){
               bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(err), {reply_to_message_id: msg.message_id })
             }
 
-            bot.sendMessage(msg.chat.id, "Opa, acabei de salvar esse link no http://www.twitter.com/tudsBot ", {reply_to_message_id: msg.message_id })
+            bot.sendMessage(msg.chat.id, "Opa, acabei de salvar esse link. Se quiser apagar manda um 'tudsbot apagar" + tweet.id_str + "'", {reply_to_message_id: msg.message_id })
           });
 
         });
