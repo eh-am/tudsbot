@@ -37,9 +37,17 @@ module.exports = function(){
           return ;
         }
 
+        var message = 'Alguém mandou no chat "' + msg.chat.title + '" a seguinte mensagem: \n\n' + msg.text;
+
         http.get(word, function (res){
-            console.log('url ' + word + ' exists');
-            bot.sendMessage(msg.chat.id, "Url " + word + "exists");
+          twitterClient.post('statuses/update', { status: message }, function (err, tweet){
+            if (err){
+              bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(err), {reply_to_message_id: msg.message_id })
+            }
+
+            bot.sendMessage(msg.chat.id, "Opa, acabei de salvar esse link no http://www.twitter.com/tudsBot ", {reply_to_message_id: msg.message_id })
+          });
+
         });
 
       }
