@@ -28,6 +28,7 @@ module.exports = function(){
 
   bot.on('message', function(msg){
     if (!regex.test(msg.text)) return;
+    if (!new RegExp('tudsbot', 'i').test(msg.text)) return; // it has to contain 'tudsbot'
 
     msg.text.split(' ').forEach(function (word){
       // if it's a url
