@@ -4,7 +4,7 @@ var Twitter = require('twitter');
 var TelegramBot = require('node-telegram-bot-api');
 var TOKEN = process.env.TELEGRAMTOKEN;
 var validUrl = require('valid-url');
-var http = require('http');
+var https = require('https');
 
 var TWITTER = {
   CONSUMER_KEY: process.env.TWITTER_CONSUMER_KEY,
@@ -39,7 +39,7 @@ module.exports = function(){
 
         var message = 'Alguém mandou no chat "' + msg.chat.title + '" a seguinte mensagem: \n\n' + msg.text;
 
-        http.get(word, function (res){
+        https.get(word, function (res){
           twitterClient.post('statuses/update', { status: message }, function (err, tweet){
             if (err){
               bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(err), {reply_to_message_id: msg.message_id })
