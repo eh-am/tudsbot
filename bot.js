@@ -4,7 +4,7 @@ var Twitter = require('twitter');
 var TelegramBot = require('node-telegram-bot-api');
 var TOKEN = process.env.TELEGRAMTOKEN;
 var validUrl = require('valid-url');
-var https = require('https');
+var https = require('http-https');
 
 var TWITTER = {
   CONSUMER_KEY: process.env.TWITTER_CONSUMER_KEY,
