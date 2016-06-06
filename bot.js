@@ -31,7 +31,7 @@ module.exports = function(){
     if (new RegExp('tudsbot apagar \\d+', 'i').test(msg.text)) {
       var deleteId = msg.text.match('tudsbot apagar (\\d+)', 'i')[1];
 
-      twitterClient.post('statuses/destroy/'+deleteId, null, function (err, tweet){
+      twitterClient.post('statuses/destroy/' + deleteId, function (err, tweet){
         if (err){
           bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(err), {reply_to_message_id: msg.message_id })
         }
