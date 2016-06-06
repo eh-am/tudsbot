@@ -37,7 +37,7 @@ module.exports = function(){
     if (new RegExp('^(' + alcunhas.join('|') + ') salvar quote').test(msg.text)){
       if (msg.reply_to_message){
 
-        // TODO 
+        // TODO
         // quebrar a mensagem em 2 tweets
         // if ()
 
@@ -83,7 +83,6 @@ module.exports = function(){
 
         var message = 'Alguém mandou no chat "' + msg.chat.title + '" a seguinte mensagem: \n\n' + msg.text;
 
-        try {
           https.get(word, function (res){
             twitterClient.post('statuses/update', { status: message }, function (err, tweet){
               if (err){
@@ -93,11 +92,10 @@ module.exports = function(){
               bot.sendMessage(msg.chat.id, "Opa, acabei de salvar esse link. Se quiser apagar manda um 'tudsbot apagar" + tweet.id_str + "'", {reply_to_message_id: msg.message_id })
             });
 
+          }).on('error', function(e){
+              bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(error), {reply_to_message_id: msg.message_id })
           });
-        } catch (error){
-          bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(error), {reply_to_message_id: msg.message_id })
         }
-
       }
     });
   });
