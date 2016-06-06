@@ -34,7 +34,7 @@ module.exports = function(){
     }
 
     // se é um reply e falou 'tudsbot salvar quote'
-    if (new RegExp('^(' + alcunhas.join('|') + ') salvar quote').match(msg.text)){
+    if (new RegExp('^(' + alcunhas.join('|') + ') salvar quote').test(msg.text)){
       if (msg.reply_to_message){
 
         twitterClient.post('statuses/update', { status: msg.reply_to_message.text }, function (err, tweet){
