@@ -33,6 +33,20 @@ module.exports = function(){
       return ;
     }
 
+    // se é um reply e falou 'tudsbot salvar quote'
+    if (new RegExp('^(' + alcunhas.join('|') + ') salvar quote').match(msg.text)){
+      if (msg.reply_to_message){
+
+        twitterClient.post('statuses/update', { status: msg.reply_to_message.text }, function (err, tweet){
+          if (err){
+            bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(err), {reply_to_message_id: msg.reply_to_message.message_id })
+          }
+
+          bot.sendMessage(msg.chat.id, "Opa, acabei de salvar essa mensagem. Se quiser apagar manda um 'tudsbot apagar" + tweet.id_str + "'", {reply_to_message_id: msg.reply_to_message.message_id })
+        });
+      }
+    }
+
     if (new RegExp('^(' +  alcunhas.join('|') + ')$', 'i').test(msg.text)){
       bot.sendMessage(msg.chat.id, "Chamou?", {reply_to_message_id: msg.message_id });
     }
