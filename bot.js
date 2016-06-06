@@ -83,19 +83,22 @@ module.exports = function(){
 
         var message = 'Alguém mandou no chat "' + msg.chat.title + '" a seguinte mensagem: \n\n' + msg.text;
 
-          https.get(word, function (res){
-            twitterClient.post('statuses/update', { status: message }, function (err, tweet){
-              if (err){
-                bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(err), {reply_to_message_id: msg.message_id })
-              }
+        https.get(word, function (res){
+          twitterClient.post('statuses/update', { status: message }, function (err, tweet){
+            if (err){
+              bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(err), {reply_to_message_id: msg.message_id })
+            }
 
-              bot.sendMessage(msg.chat.id, "Opa, acabei de salvar esse link. Se quiser apagar manda um 'tudsbot apagar" + tweet.id_str + "'", {reply_to_message_id: msg.message_id })
-            });
-
-          }).on('error', function(e){
-              bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(error), {reply_to_message_id: msg.message_id });
+            bot.sendMessage(msg.chat.id, "Opa, acabei de salvar esse link. Se quiser apagar manda um 'tudsbot apagar" + tweet.id_str + "'", {reply_to_message_id: msg.message_id })
           });
+
+        }).on('error', function(e){
+            bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(e), {reply_to_message_id: msg.message_id });
+        });
       }
+
+
+
     });
   });
 }
