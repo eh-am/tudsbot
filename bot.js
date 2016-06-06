@@ -5,6 +5,8 @@ var TelegramBot = require('node-telegram-bot-api');
 var TOKEN = process.env.TELEGRAMTOKEN;
 var validUrl = require('valid-url');
 var https = require('http-https');
+var _ = require('lodash');
+
 
 var TWITTER = {
   CONSUMER_KEY: process.env.TWITTER_CONSUMER_KEY,
@@ -26,11 +28,17 @@ module.exports = function(){
   // this regex is supposed to match positively if a string contails an url somewhere
   var regex = new RegExp('(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?');
   var alcunhas = ['tudsbot', 'pardo', 'moreninho', 'sarro'];
+  var pessoas = ['abreu', 'igby', 'tuds', 'oplu', 'leo', 'ruslan', 'aguinaldo', 'braldo'];
 
   bot.on('message', function(msg){
     if (msg.chat.type === "private"){
       bot.sendMessage(msg.chat.id, "Só funciono em grupos, vá caçar uns amigos");
       return ;
+    }
+
+    if (new RegExp('e vc|voce|você tudsbot', 'i').test(msg.text)){
+      bot.sendMessage(msg.chat.id, "E vc " + _.shuffle(pessoas)[0] + " ?");
+      return;
     }
 
     // se é um reply e falou 'tudsbot salvar quote'
