@@ -93,9 +93,8 @@ module.exports = function(){
             });
 
           }).on('error', function(e){
-              bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(error), {reply_to_message_id: msg.message_id })
+              bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(error), {reply_to_message_id: msg.message_id });
           });
-        }
       }
     });
   });
