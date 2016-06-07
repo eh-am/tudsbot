@@ -42,7 +42,7 @@ module.exports = function(){
     }
 
     // se é um reply e falou 'tudsbot salvar quote'
-    if (new RegExp('^(' + alcunhas.join('|') + ') salvar quote').test(msg.text)){
+    if (new RegExp('^(' + alcunhas.join('|') + ') salvar quote', 'i').test(msg.text)){
       if (msg.reply_to_message){
 
         // TODO
