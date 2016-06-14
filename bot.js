@@ -36,6 +36,16 @@ module.exports = function(){
       return ;
     }
 
+    if (new RegExp('tudsbot o (' + alcunhas.join('|') + ') deve', 'i').test(msg.text)){
+      if (_.random(0, 10) % 2 === 0){
+        bot.sendMessage(msg.chat.id, "Deve", {reply_to_message_id: msg.message_id })
+      } else {
+        bot.sendMessage(msg.chat.id, "Não deve", {reply_to_message_id: msg.message_id })
+      }
+
+      return;
+    }
+
     if (new RegExp('tudsbot devo', 'i').test(msg.text)){
       if (_.random(0, 10) % 2 === 0){
         bot.sendMessage(msg.chat.id, "Deve", {reply_to_message_id: msg.message_id })
