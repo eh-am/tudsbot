@@ -36,13 +36,23 @@ module.exports = function(){
       return ;
     }
 
-    if (new RegExp('será|sera', 'i').test(msg.text)){
+    if (new RegExp('tudsbot devo', 'i').test(msg.text)){
+      if (_.random(0, 10) % 2 === 0){
+        bot.sendMessage(msg.chat.id, "Deve", {reply_to_message_id: msg.reply_to_message.message_id })
+      } else {
+        bot.sendMessage(msg.chat.id, "Não deve", {reply_to_message_id: msg.reply_to_message.message_id })        
+      }
+
+      return;
+    }
+
+    if (new RegExp('(será|sera)', 'i').test(msg.text)){
       bot.sendMessage(msg.chat.id, "Será?", {reply_to_message_id: msg.reply_to_message.message_id })
       return;
     }
 
 
-    if (new RegExp('e vc|voce|você tudsbot', 'i').test(msg.text)){
+    if (new RegExp('e (vc|voce|você) tudsbot', 'i').test(msg.text)){
       bot.sendMessage(msg.chat.id, "E vc " + _.shuffle(pessoas)[0] + " ?");
       return;
     }
