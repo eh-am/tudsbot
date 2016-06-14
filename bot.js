@@ -38,16 +38,16 @@ module.exports = function(){
 
     if (new RegExp('tudsbot devo', 'i').test(msg.text)){
       if (_.random(0, 10) % 2 === 0){
-        bot.sendMessage(msg.chat.id, "Deve", {reply_to_message_id: msg.reply_to_message.message_id })
+        bot.sendMessage(msg.chat.id, "Deve", {reply_to_message_id: msg.message_id })
       } else {
-        bot.sendMessage(msg.chat.id, "Não deve", {reply_to_message_id: msg.reply_to_message.message_id })        
+        bot.sendMessage(msg.chat.id, "Não deve", {reply_to_message_id: msg.message_id })
       }
 
       return;
     }
 
     if (new RegExp('(será|sera)', 'i').test(msg.text)){
-      bot.sendMessage(msg.chat.id, "Será?", {reply_to_message_id: msg.reply_to_message.message_id })
+      bot.sendMessage(msg.chat.id, "Será?", {reply_to_message_id: msg.message_id })
       return;
     }
 
@@ -67,10 +67,10 @@ module.exports = function(){
 
         twitterClient.post('statuses/update', { status: msg.reply_to_message.text }, function (err, tweet){
           if (err){
-            bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(err), {reply_to_message_id: msg.reply_to_message.message_id })
+            bot.sendMessage(msg.chat.id, "Putz, deu alguma merda" + JSON.stringify(err), {reply_to_message_id: msg.message_id })
           }
 
-          bot.sendMessage(msg.chat.id, "Opa, acabei de salvar essa mensagem. Se quiser apagar manda um 'tudsbot apagar " + tweet.id_str + "'", {reply_to_message_id: msg.reply_to_message.message_id })
+          bot.sendMessage(msg.chat.id, "Opa, acabei de salvar essa mensagem. Se quiser apagar manda um 'tudsbot apagar " + tweet.id_str + "'", {reply_to_message_id: msg.message_id })
         });
       }
     }
