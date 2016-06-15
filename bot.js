@@ -34,8 +34,8 @@ module.exports = function(){
   var alcunhas = ['tudsbot', 'pardo', 'moreninho', 'sarro'];
   var pessoas = ['abreu', 'igby', 'tuds', 'oplu', 'leo', 'ruslan', 'aguinaldo', 'braldo'];
 
-  bot.onText('/^(' + alcunhas.join('|') + ')$/', function(){
-    bot.sendMessage(msg.chat.id, "Chamou??", {reply_to_message_id: msg.message_id });    
+  bot.onText('/^(' + alcunhas.join('|') + ')$/', function(msg, match){
+    bot.sendMessage(msg.chat.id, "Chamou??", {reply_to_message_id: msg.message_id });
   });
 
 
