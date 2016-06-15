@@ -8,6 +8,8 @@ var https = require('http-https');
 var _ = require('lodash');
 
 
+console.log(TOKEN);
+
 var TWITTER = {
   CONSUMER_KEY: process.env.TWITTER_CONSUMER_KEY,
   CONSUMER_SECRET: process.env.TWITTER_CONSUMER_SECRET,
@@ -22,6 +24,7 @@ function isEven(value){
 
 module.exports = function(){
   var bot = new TelegramBot(TOKEN, { polling: true });
+
   var twitterClient = new Twitter({
     consumer_key: TWITTER.CONSUMER_KEY,
     consumer_secret: TWITTER.CONSUMER_SECRET,
@@ -34,46 +37,61 @@ module.exports = function(){
   var alcunhas = ['tudsbot', 'pardo', 'moreninho', 'sarro'];
   var pessoas = ['abreu', 'igby', 'tuds', 'oplu', 'leo', 'ruslan', 'aguinaldo', 'braldo'];
 
-  bot.onText(new RegExp('^(' +  alcunhas.join('|') + ')$', 'i'), function(msg){
+
+  /**
+  * Responds to its nicknames
+  * Used to test if the bot is running correctly
+  */
+  bot.onText(new RegExp(`^(${alcunhas.join('|')})$`, 'i'), (msg) => {
     bot.sendMessage(msg.chat.id, "Chamou?", {reply_to_message_id: msg.message_id });
   });
 
+  /*
+  * Reinforces the "Será?""
+  */
+  bot.onText(new RegExp('(será|sera)', 'i'), function(msg){
+    bot.sendMessage(msg.chat.id, "Será?", {reply_to_message_id: msg.message_id })
+  });
+
+
+  /*
+  * Advices
+  * tudsbot devo
+  * tudsbot x deve
+  * tudsbot o x deve
+  */
+  bot.onText(new RegExp(`tudsbot devo`, 'i'), magicConchShell);
+  bot.onText(new RegExp(`tudsbot o? (${pessoas.join('|')}) deve`, 'i'), magicConchShell);
+
+  function magicConchShell(msg){
+    let randomNum = _.random(0, 2);
+
+    if (isEven(randomNum))
+      bot.sendMessage(msg.chat.id, "Deve", {reply_to_message_id: msg.message_id })
+    else
+      bot.sendMessage(msg.chat.id, "Não deve", {reply_to_message_id: msg.message_id })
+  }
+
+
+
+  /*
+  * E vc?
+  */
+  bot.onText(new RegExp('e (vc|voce|você) tudsbot', 'i'), msg => {
+    bot.sendMessage(msg.chat.id, "E vc " + _.shuffle(pessoas)[0] + "?");
+  });
+
+
+
   bot.on('message', function(msg){
+    console.log("message");
     // if (msg.chat.type === "private"){
     //   bot.sendMessage(msg.chat.id, "Só funciono em grupos, vá caçar uns amigos");
     //   return ;
     // }
 
-    if (new RegExp('tudsbot o (' + alcunhas.join('|') + ') deve', 'i').test(msg.text)){
-      if (_.random(0, 10) % 2 === 0){
-        bot.sendMessage(msg.chat.id, "Deve", {reply_to_message_id: msg.message_id })
-      } else {
-        bot.sendMessage(msg.chat.id, "Não deve", {reply_to_message_id: msg.message_id })
-      }
-
-      return;
-    }
-
-    if (new RegExp('tudsbot devo', 'i').test(msg.text)){
-      if (isEven(_.random(0, 10) )){
-        bot.sendMessage(msg.chat.id, "Deve", {reply_to_message_id: msg.message_id })
-      } else {
-        bot.sendMessage(msg.chat.id, "Não deve", {reply_to_message_id: msg.message_id })
-      }
-
-      return;
-    }
-
-    if (new RegExp('(será|sera)', 'i').test(msg.text)){
-      bot.sendMessage(msg.chat.id, "Será?", {reply_to_message_id: msg.message_id })
-      return;
-    }
 
 
-    if (new RegExp('e (vc|voce|você) tudsbot', 'i').test(msg.text)){
-      bot.sendMessage(msg.chat.id, "E vc " + _.shuffle(pessoas)[0] + " ?");
-      return;
-    }
 
     // se é um reply e falou 'tudsbot salvar quote'
     if (new RegExp('^(' + alcunhas.join('|') + ') salvar quote', 'i').test(msg.text)){
@@ -107,8 +125,8 @@ module.exports = function(){
       return;
     }
 
-    if (!regex.test(msg.text)) return;
-    if (!new RegExp('tudsbot', 'i').test(msg.text)) return; // it has to contain 'tudsbot'
+    // if (!regex.test(msg.text)) return;
+    // if (!new RegExp('tudsbot', 'i').test(msg.text)) return; // it has to contain 'tudsbot'
 
     msg.text.split(' ').forEach(function (word){
       // if it's a url
