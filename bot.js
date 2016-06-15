@@ -15,6 +15,10 @@ var TWITTER = {
   ACCESS_TOKEN_SECRET: process.env.TWITTER_ACCESS_TOKEN_SECRET
 };
 
+function isEven(value){
+  return (value % 2 === 0);
+}
+
 
 module.exports = function(){
   var bot = new TelegramBot(TOKEN, { polling: true });
@@ -30,11 +34,16 @@ module.exports = function(){
   var alcunhas = ['tudsbot', 'pardo', 'moreninho', 'sarro'];
   var pessoas = ['abreu', 'igby', 'tuds', 'oplu', 'leo', 'ruslan', 'aguinaldo', 'braldo'];
 
+  bot.onText('/^(' + alcunhas.join('|') + ')$/', function(){
+    bot.sendMessage(msg.chat.id, "Chamou??", {reply_to_message_id: msg.message_id });    
+  });
+
+
   bot.on('message', function(msg){
-    if (msg.chat.type === "private"){
-      bot.sendMessage(msg.chat.id, "Só funciono em grupos, vá caçar uns amigos");
-      return ;
-    }
+    // if (msg.chat.type === "private"){
+    //   bot.sendMessage(msg.chat.id, "Só funciono em grupos, vá caçar uns amigos");
+    //   return ;
+    // }
 
     if (new RegExp('tudsbot o (' + alcunhas.join('|') + ') deve', 'i').test(msg.text)){
       if (_.random(0, 10) % 2 === 0){
@@ -47,7 +56,7 @@ module.exports = function(){
     }
 
     if (new RegExp('tudsbot devo', 'i').test(msg.text)){
-      if (_.random(0, 10) % 2 === 0){
+      if (isEven(_.random(0, 10) )){
         bot.sendMessage(msg.chat.id, "Deve", {reply_to_message_id: msg.message_id })
       } else {
         bot.sendMessage(msg.chat.id, "Não deve", {reply_to_message_id: msg.message_id })
@@ -83,10 +92,6 @@ module.exports = function(){
           bot.sendMessage(msg.chat.id, "Opa, acabei de salvar essa mensagem. Se quiser apagar manda um 'tudsbot apagar " + tweet.id_str + "'", {reply_to_message_id: msg.message_id })
         });
       }
-    }
-
-    if (new RegExp('^(' +  alcunhas.join('|') + ')$', 'i').test(msg.text)){
-      bot.sendMessage(msg.chat.id, "Chamou?", {reply_to_message_id: msg.message_id });
     }
 
 
