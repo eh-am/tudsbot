@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel src -d build",
     "prod": "node build/index.js",
-    "preprod": "cp src/*.json build && npm run build",
+    "preprod": "npm run build && cp src/*.json build",
     "dev": "nodemon --exec \"babel-node src/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
