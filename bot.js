@@ -34,10 +34,10 @@ module.exports = function(){
   var alcunhas = ['tudsbot', 'pardo', 'moreninho', 'sarro'];
   var pessoas = ['abreu', 'igby', 'tuds', 'oplu', 'leo', 'ruslan', 'aguinaldo', 'braldo'];
 
-  bot.onText(new RegExp('^(' +  alcunhas.join('|') + ')$', 'i'), function(){
+  bot.onText(new RegExp('^(' +  alcunhas.join('|') + ')$', 'i'), function(msg){
     bot.sendMessage(msg.chat.id, "Chamou?", {reply_to_message_id: msg.message_id });
   });
-  
+
   bot.on('message', function(msg){
     // if (msg.chat.type === "private"){
     //   bot.sendMessage(msg.chat.id, "Só funciono em grupos, vá caçar uns amigos");
