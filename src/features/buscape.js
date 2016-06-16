@@ -1,6 +1,6 @@
 'use strict';
 
-var escape = require('escape-html');
+var urlencode = require('urlencode');
 
 module.exports = {
   attach: function(b){
@@ -8,7 +8,7 @@ module.exports = {
 
     bot.onText(new RegExp('tudsbot quanto custa (?:um|uma)+ (.*)', 'i'), (msg) => {
       var products = new RegExp('tudsbot quanto custa (?:um|uma)+ (.*)', 'i').exec(msg.text)[1];
-      products = escape(products);
+      products = urlencode(products);
 
       var message = 'Vê ae \n' +
       getBuscapeURL(products) + '\n\n' +
